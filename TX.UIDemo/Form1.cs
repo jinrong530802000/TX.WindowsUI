@@ -18,7 +18,7 @@ namespace TX.UIDemo
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            this.Text = "";
         }
     }
 }
