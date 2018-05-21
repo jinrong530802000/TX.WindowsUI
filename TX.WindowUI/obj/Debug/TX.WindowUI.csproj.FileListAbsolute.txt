@@ -1,0 +1,6 @@
+D:\MyProject\TX.WindowUI\TX.WindowUI\bin\Debug\TX.WindowUI.dll
+D:\MyProject\TX.WindowUI\TX.WindowUI\bin\Debug\TX.WindowUI.pdb
+D:\MyProject\TX.WindowUI\TX.WindowUI\obj\Debug\TX.WindowUI.Properties.Resources.resources
+D:\MyProject\TX.WindowUI\TX.WindowUI\obj\Debug\TX.WindowUI.csproj.GenerateResource.Cache
+D:\MyProject\TX.WindowUI\TX.WindowUI\obj\Debug\TX.WindowUI.dll
+D:\MyProject\TX.WindowUI\TX.WindowUI\obj\Debug\TX.WindowUI.pdb
