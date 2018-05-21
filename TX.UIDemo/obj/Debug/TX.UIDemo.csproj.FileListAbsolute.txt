@@ -15,3 +15,4 @@ D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.csprojResolveAssemblyRefe
 D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.Form1.resources
 D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.Properties.Resources.resources
 D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.csproj.GenerateResource.Cache
+D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.Form2.resources

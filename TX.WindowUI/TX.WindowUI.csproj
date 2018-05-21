@@ -47,6 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppCode\Tools\BasicBlockPainter.cs" />
+    <Compile Include="AppCode\Tools\RectangleGlassPosition.cs" />
+    <Compile Include="AppCode\Tools\RollingBarPainter.cs" />
+    <Compile Include="AppCode\Tools\SimpleObjectPainter.cs" />
+    <Compile Include="Controls\WLButton\WLButton.cs" />
     <Compile Include="Forms\BaseForm\ThemeBaseFormEntity.cs" />
     <Compile Include="AppCode\Mode\ButtonColorTable.cs" />
     <Compile Include="AppCode\Tools\ColorHelper.cs" />
@@ -84,7 +89,6 @@
   <ItemGroup>
     <Folder Include="AppCode\Theme\" />
     <Folder Include="Config\" />
-    <Folder Include="Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

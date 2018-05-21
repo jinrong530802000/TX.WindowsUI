@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using TX.WindowUI.Controls;
 using TX.WindowUI.Mode;
 using TX.WindowUI.Tools;
 using TX.WindowUI.Win32;
@@ -41,17 +42,134 @@ namespace TX.WindowUI.Forms
             base.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             base.Padding = DefaultPadding;
             base.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
-
+            base.MinimumSize= new Size(200,50);
+            BtnIni();
             
         }
- 
+
+        /// <summary>
+        /// 添加窗体右上方的按钮
+        /// </summary>
+        private void BtnIni()
+        {
+            // close box
+            closeBtn = new WLButton(this);
+            closeBtn.Visible = true;
+            closeBtn.Bounds = this.CloseBoxRect;
+
+            closeBtn.Click += new EventHandler(CloseBtnClick);
+            closeBtn.ForePathGetter = new ButtonForePathGetter(
+                    GraphicsPathHelper.CreateCloseFlagPath);
+
+            // max res box
+            if (this.MaximizeBox)
+            {
+                maxBtn = new WLButton(this);
+                resBtn = new WLButton(this);
+
+                if (this.WindowState == FormWindowState.Normal)
+                {
+                    maxBtn.Visible = true;
+                    resBtn.Visible = false;
+                }
+                else
+                {
+                    maxBtn.Visible = false;
+                    resBtn.Visible = true;
+                }
+
+                maxBtn.Bounds = this.MaxBoxRect;
+                resBtn.Bounds = this.MaxBoxRect;
+
+                maxBtn.Click += new EventHandler(MaxBtnClick);
+                maxBtn.ForePathGetter = new ButtonForePathGetter(
+                    GraphicsPathHelper.CreateMaximizeFlagPath);
+
+                resBtn.Click += new EventHandler(ResBtnClick);
+                resBtn.ForePathGetter = new ButtonForePathGetter(
+                    GraphicsPathHelper.CreateRestoreFlagPath);
+            }
+
+            // min box
+            if (this.MinimizeBox)
+            {
+                minBtn = new WLButton(this);
+
+                minBtn.Visible = true;
+                minBtn.Bounds = this.MinBoxRect;
+
+                minBtn.Click += new EventHandler(MinBtnClick);
+                minBtn.ForePathGetter = new ButtonForePathGetter(
+                    GraphicsPathHelper.CreateMinimizeFlagPath);
+            }
+
+            SetControlBoxColor();
+        }
+
+        private void SetControlBoxColor()
+        {
+
+            closeBtn.ColorTable = this.XTheme.CloseBoxColor;
+            closeBtn.BackImageNormal = this.XTheme.CloseBoxBackImageNormal;
+            closeBtn.BackImageHover = this.XTheme.CloseBoxBackImageHover;
+            closeBtn.BackImagePressed = this.XTheme.CloseBoxBackImagePressed;
+
+            // max res box
+            if (this.MaximizeBox)
+            {
+                maxBtn.ColorTable = this.XTheme.MaxBoxColor;
+                maxBtn.BackImageNormal = this.XTheme.MaxBoxBackImageNormal;
+                maxBtn.BackImageHover = this.XTheme.MaxBoxBackImageHover;
+                maxBtn.BackImagePressed = this.XTheme.MaxBoxBackImagePressed;
+
+                resBtn.ColorTable = this.XTheme.MaxBoxColor;
+                resBtn.BackImageNormal = this.XTheme.ResBoxBackImageNormal;
+                resBtn.BackImageHover = this.XTheme.ResBoxBackImageHover;
+                resBtn.BackImagePressed = this.XTheme.ResBoxBackImagePressed;
+            }
+
+            // min box
+            if (this.MinimizeBox)
+            {
+                minBtn.ColorTable = this.XTheme.MinBoxColor;
+                minBtn.BackImageNormal = this.XTheme.MinBoxBackImageNormal;
+                minBtn.BackImageHover = this.XTheme.MinBoxBackImageHover;
+                minBtn.BackImagePressed = this.XTheme.MinBoxBackImagePressed;
+            }
+
+        }
+
+
+        private void CloseBtnClick(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MaxBtnClick(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Maximized;
+        }
+
+        private void ResBtnClick(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void MinBtnClick(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
 
         #region property
 
         bool _resizable = true;             // not with theme
         Padding _padding = new Padding(0);  // not with theme
         ThemeBaseFormEntity _myTheme;
-        
+        private WLButton closeBtn;
+        private WLButton maxBtn;
+        private WLButton resBtn;
+        private WLButton minBtn;
 
 
         [DefaultValue(typeof(Padding), "0")]
@@ -407,6 +525,9 @@ namespace TX.WindowUI.Forms
 
         #region calculated rect
 
+        /// <summary>
+        /// 标题
+        /// </summary>
         internal Rectangle CaptionRect
         {
             get
@@ -451,7 +572,7 @@ namespace TX.WindowUI.Forms
         {
             get
             {
-                if (ControlBox && MaximizeBox)
+                if ( MaximizeBox)
                 {
                     int x = CloseBoxRect.Left - ControlBoxSpace - MaxBoxSize.Width;
                     return new Rectangle(
@@ -467,7 +588,7 @@ namespace TX.WindowUI.Forms
         {
             get
             {
-                if (ControlBox && MinimizeBox)
+                if ( MinimizeBox)
                 {
                     int x;
                     if (MaximizeBox)
@@ -613,11 +734,11 @@ namespace TX.WindowUI.Forms
                 }
             }
 
-            if (IconRect.Contains(p))
-            {
-                m.Result = new IntPtr((int)WinAPI.NCHITTEST.HTSYSMENU);
-                return true;
-            }
+            //if (IconRect.Contains(p))
+            //{
+            //    m.Result = new IntPtr((int)WinAPI.NCHITTEST.HTSYSMENU);
+            //    return true;
+            //}
 
             if (CloseBoxRect.Contains(p) || MaxBoxRect.Contains(p) || MinBoxRect.Contains(p))
             {
@@ -686,22 +807,112 @@ namespace TX.WindowUI.Forms
             DrawCaptionBackground(e.Graphics);
             DrawFormBorder(e.Graphics);
             DrawFormIconAndText(e.Graphics);
+            closeBtn.DrawButton(e.Graphics);
+            maxBtn.DrawButton(e.Graphics);
+            resBtn.DrawButton(e.Graphics);
+            minBtn.DrawButton(e.Graphics);
+    
 
             if (XTheme.SetClientInset)
                 DrawInsetClientRect(e.Graphics);
  
  
         }
- 
 
- 
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            SetWLButtonPoint();
 
-   
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            if (ControlBox)
+                SetMouseType(e.Location, MouseOperationType.Move);
+         
+        }
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+
+            if (e.Button != System.Windows.Forms.MouseButtons.Left)
+                return;
+
+            if (ControlBox)
+                SetMouseType(e.Location, MouseOperationType.Down);
+          
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+
+            if (e.Button != System.Windows.Forms.MouseButtons.Left)
+                return;
+
+            if (e.Clicks > 1)
+                return;
+
+            if (ControlBox)
+                SetMouseType(e.Location, MouseOperationType.Up);
+ 
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e);
+            if (ControlBox)
+                SetMouseType(Point.Empty, MouseOperationType.Leave);
+       
+        }
+
+
 
         #endregion
 
         #region private method
 
+       /// <summary>
+       /// 重设按钮的位置
+       /// </summary>
+        private void SetWLButtonPoint()
+        {
+            closeBtn.Bounds = this.CloseBoxRect;
+            maxBtn.Bounds = this.MaxBoxRect;
+            minBtn.Bounds = this.MinBoxRect;
+            resBtn.Bounds = this.MaxBoxRect;
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                maxBtn.Visible = false;
+                resBtn.Visible = true;
+            }
+            else if (this.WindowState == FormWindowState.Normal)
+            {
+                maxBtn.Visible = true;
+                resBtn.Visible = false;
+            }
+            else {
+                maxBtn.Visible = true;
+                resBtn.Visible = false;
+            }
+           
+         
+        }
+
+        private void SetMouseType(Point loc,MouseOperationType mtype)
+        {
+            closeBtn.MouseOperation(loc, mtype);
+            if (maxBtn != null && maxBtn.Visible)
+                maxBtn.MouseOperation(loc, mtype);
+            if (resBtn != null && resBtn.Visible)
+                resBtn.MouseOperation(loc, mtype);
+            if (minBtn != null)
+                minBtn.MouseOperation(loc, mtype);
+        
+        }
+        
         private void SetFormMinimizeSize()
         {
             int minW = 160;
@@ -720,8 +931,6 @@ namespace TX.WindowUI.Forms
         }
 
        
-
-
         private void PrepareForNewTheme()
         {
             if (base.Region != null)

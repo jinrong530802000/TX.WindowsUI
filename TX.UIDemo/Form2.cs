@@ -9,17 +9,11 @@ using System.Windows.Forms;
 
 namespace TX.UIDemo
 {
-    public partial class Form1 : TX.WindowUI.Forms .ThemeBaseForm 
+    public partial class Form2 : Form
     {
-        public Form1()
+        public Form2()
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Form2 f = new Form2();
-            f.Show();
         }
     }
 }

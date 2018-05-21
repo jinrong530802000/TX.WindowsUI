@@ -4,3 +4,4 @@ D:\MyProject\TX.WindowUI\TX.WindowUI\obj\Debug\TX.WindowUI.Properties.Resources.
 D:\MyProject\TX.WindowUI\TX.WindowUI\obj\Debug\TX.WindowUI.csproj.GenerateResource.Cache
 D:\MyProject\TX.WindowUI\TX.WindowUI\obj\Debug\TX.WindowUI.dll
 D:\MyProject\TX.WindowUI\TX.WindowUI\obj\Debug\TX.WindowUI.pdb
+D:\MyProject\TX.WindowUI\TX.WindowUI\obj\Debug\TX.WindowUI.csprojResolveAssemblyReference.cache
