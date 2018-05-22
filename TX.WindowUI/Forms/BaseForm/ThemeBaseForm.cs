@@ -166,6 +166,7 @@ namespace TX.WindowUI.Forms
         bool _resizable = true;             // not with theme
         Padding _padding = new Padding(0);  // not with theme
         ThemeBaseFormEntity _myTheme;
+        private ShadowForm  shadowform;
         private WLButton closeBtn;
         private WLButton maxBtn;
         private WLButton resBtn;
@@ -775,9 +776,9 @@ namespace TX.WindowUI.Forms
 
             switch (m.Msg)
             {
-                //case (int)WinAPI.WindowMessages.WM_NCCALCSIZE:
-                //    alreadyHandled = WmNcCalcSize(ref m);
-                //    break;
+                case (int)WinAPI.WindowMessages.WM_NCCALCSIZE:
+                    alreadyHandled = WmNcCalcSize(ref m);
+                    break;
 
                 case (int)WinAPI.WindowMessages.WM_NCHITTEST:
                     alreadyHandled = WmNcHitTest(ref m);
@@ -811,9 +812,7 @@ namespace TX.WindowUI.Forms
             maxBtn.DrawButton(e.Graphics);
             resBtn.DrawButton(e.Graphics);
             minBtn.DrawButton(e.Graphics);
-    
-
-            if (XTheme.SetClientInset)
+                if (XTheme.SetClientInset)
                 DrawInsetClientRect(e.Graphics);
  
  
@@ -867,6 +866,24 @@ namespace TX.WindowUI.Forms
                 SetMouseType(Point.Empty, MouseOperationType.Leave);
        
         }
+
+
+        ////Show或Hide被调用时
+        //protected override void OnVisibleChanged(EventArgs e)
+        //{
+        //    if (Visible)
+        //    {
+             
+        //        //判断不是在设计器中
+        //        if (!DesignMode && shadowform == null)
+        //        {
+        //            shadowform = new  ShadowForm (this);
+        //            shadowform.Show(this);
+        //        }
+               
+        //    }
+        //    base.OnVisibleChanged(e);
+        //}
 
 
 
@@ -945,12 +962,7 @@ namespace TX.WindowUI.Forms
      
         }
 
-
-        //private GraphicsPath CreateRoundedFormRect(bool correction)
-        //{
-        //    Rectangle rect = new Rectangle(Point.Empty, this.Size);
-        //    return GraphicsPathHelper.CreateRoundedRect(rect, Radius, Round, correction);
-        //}
+ 
 
         /// <summary>
         /// 判断所接收到的 wm_nc-calc-size 消息是否指示窗体即将最小化
@@ -978,7 +990,7 @@ namespace TX.WindowUI.Forms
             int width = rect.Right - rect.Left;
             int height = rect.Bottom - rect.Top;
 
-            if (left < 0 && top < 0)
+            if (left <= 0 && top <= 0)
             {
                 Rectangle workingArea = Screen.GetWorkingArea(this);
                 if (width == (workingArea.Width + (-left) * 2)

@@ -12,6 +12,8 @@ namespace TX.WindowUI.Mode
         Top,
         Bottom,
         Left,
-        Right
+        Right,
+        BottomLeft,
+        BottomRight
     }
 }

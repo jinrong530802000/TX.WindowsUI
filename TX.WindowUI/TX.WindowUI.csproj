@@ -48,10 +48,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppCode\Tools\BasicBlockPainter.cs" />
+    <Compile Include="AppCode\Tools\ControlPaintEx.cs" />
+    <Compile Include="AppCode\Tools\ImageDrawRect.cs" />
     <Compile Include="AppCode\Tools\RectangleGlassPosition.cs" />
+    <Compile Include="AppCode\Tools\RenderHelper.cs" />
     <Compile Include="AppCode\Tools\RollingBarPainter.cs" />
     <Compile Include="AppCode\Tools\SimpleObjectPainter.cs" />
     <Compile Include="Controls\WLButton\WLButton.cs" />
+    <Compile Include="Forms\BaseForm\ShadowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BaseForm\ShadowForm.Designer.cs">
+      <DependentUpon>ShadowForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\BaseForm\ThemeBaseFormEntity.cs" />
     <Compile Include="AppCode\Mode\ButtonColorTable.cs" />
     <Compile Include="AppCode\Tools\ColorHelper.cs" />
@@ -75,6 +84,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -89,6 +99,9 @@
   <ItemGroup>
     <Folder Include="AppCode\Theme\" />
     <Folder Include="Config\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_light_bkg_top123.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

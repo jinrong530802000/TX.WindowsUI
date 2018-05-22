@@ -10,6 +10,12 @@ namespace TX.WindowUI.Win32
 
         public static readonly IntPtr TRUE = new IntPtr(1);
         public static readonly IntPtr FALSE = IntPtr.Zero;
+        public const int GWL_EXSTYLE = -20;
+        public const int WS_EX_TRANSPARENT = 0x00000020;
+        public const int WS_EX_LAYERED = 0x00080000;
+        public const int WM_NCLBUTTONDOWN = 161;
+        public const int HTCAPTION = 2;
+
 
         #endregion
 
@@ -425,7 +431,22 @@ namespace TX.WindowUI.Win32
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SendMessage(IntPtr hWnd, int msg,
-                                    IntPtr wParam, IntPtr lParam);
+                                    int wParam, int lParam);
+
+
+        [DllImport("gdi32.dll")]
+        public static extern int CreateRoundRectRgn(int x1, int y1, int x2, int y2, int x3, int y3);
+
+        [DllImport("user32.dll")]
+        public static extern int SetWindowRgn(IntPtr hwnd, int hRgn, Boolean bRedraw);
+
+        [DllImport("gdi32.dll", EntryPoint = "DeleteObject", CharSet = CharSet.Ansi)]
+        public static extern int DeleteObject(int hObject);
+
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+ 
 
         #endregion
     }
