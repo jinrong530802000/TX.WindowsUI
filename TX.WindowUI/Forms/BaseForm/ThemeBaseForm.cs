@@ -18,6 +18,15 @@ namespace TX.WindowUI.Forms
 {
     public partial class ThemeBaseForm : Form
     {
+        bool _resizable = true;             // not with theme
+        Padding _padding = new Padding(0);  // not with theme
+        ThemeBaseFormEntity _myTheme;
+        private ShadowForm shadowform;
+        private WLButton closeBtn;
+        private WLButton maxBtn;
+        private WLButton resBtn;
+        private WLButton minBtn;
+
 
         public ThemeBaseForm()
             :base()
@@ -97,7 +106,7 @@ namespace TX.WindowUI.Forms
 
                 minBtn.Visible = true;
                 minBtn.Bounds = this.MinBoxRect;
-
+              
                 minBtn.Click += new EventHandler(MinBtnClick);
                 minBtn.ForePathGetter = new ButtonForePathGetter(
                     GraphicsPathHelper.CreateMinimizeFlagPath);
@@ -163,17 +172,7 @@ namespace TX.WindowUI.Forms
 
         #region property
 
-        bool _resizable = true;             // not with theme
-        Padding _padding = new Padding(0);  // not with theme
-        ThemeBaseFormEntity _myTheme;
-        private ShadowForm  shadowform;
-        private WLButton closeBtn;
-        private WLButton maxBtn;
-        private WLButton resBtn;
-        private WLButton minBtn;
-
-
-        [DefaultValue(typeof(Padding), "0")]
+           [DefaultValue(typeof(Padding), "0")]
         public new Padding Padding
         {
             get { return _padding; }
@@ -279,7 +278,7 @@ namespace TX.WindowUI.Forms
 
         [Category("GMForm")]
         [Description("标题栏高度")]
-        [DefaultValue(30)]
+        [DefaultValue(35)]
         public int CaptionHeight
         { 
             get { return XTheme.CaptionHeight; }
@@ -541,6 +540,21 @@ namespace TX.WindowUI.Forms
             }
         }
 
+        /// <summary>
+        /// 真正工作的区域
+        /// </summary>
+        internal Rectangle ClientRectToDraw
+        {
+            get
+            {
+                return new Rectangle(
+                      base.Padding.Left,
+                      base.Padding.Top,
+                     this.ClientSize.Width- base.Padding.Left*2 -1,
+                     this.ClientSize.Height  - base.Padding.Top - base.Padding .Bottom -1);
+            }
+        }
+
         internal Rectangle CaptionRectToDraw
         {
             get
@@ -552,7 +566,7 @@ namespace TX.WindowUI.Forms
                     CaptionHeight + BorderWidth);
             }
         }
-
+        
         internal Rectangle CloseBoxRect
         {
             get
@@ -684,7 +698,7 @@ namespace TX.WindowUI.Forms
             int y0 = WinAPI.HIWORD(para);
             Point p = PointToClient(new Point(x0, y0));
 
-            if (Resizable)
+            if (Resizable && base.WindowState != FormWindowState.Maximized )
             {
                 if (TopLeftRect.Contains(p))
                 {
@@ -803,26 +817,44 @@ namespace TX.WindowUI.Forms
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-
-            DrawFormBackground(e.Graphics);
             DrawCaptionBackground(e.Graphics);
-            DrawFormBorder(e.Graphics);
+            DrawFormBackground(e.Graphics);
+                   
+           // DrawFormBorder(e.Graphics);
             DrawFormIconAndText(e.Graphics);
             closeBtn.DrawButton(e.Graphics);
             maxBtn.DrawButton(e.Graphics);
             resBtn.DrawButton(e.Graphics);
             minBtn.DrawButton(e.Graphics);
-                if (XTheme.SetClientInset)
-                DrawInsetClientRect(e.Graphics);
+
+            //if (XTheme.SetClientInset)
+            //    DrawInsetClientRect(e.Graphics);
  
  
         }
 
+        protected override void OnCreateControl()
+        {
+            base.OnCreateControl();
+            if (XTheme != null && XTheme.ShowShadow)
+            {
+                shadowform = new ShadowForm(this);
+            }
+            SetFormRegion();
+        }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            if (shadowform!=null)
+            {
+                shadowform.Close();
+            }
+        }
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
             SetWLButtonPoint();
-
+            SetFormRegion();
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -868,22 +900,20 @@ namespace TX.WindowUI.Forms
         }
 
 
-        ////Show或Hide被调用时
-        //protected override void OnVisibleChanged(EventArgs e)
-        //{
-        //    if (Visible)
-        //    {
-             
-        //        //判断不是在设计器中
-        //        if (!DesignMode && shadowform == null)
-        //        {
-        //            shadowform = new  ShadowForm (this);
-        //            shadowform.Show(this);
-        //        }
-               
-        //    }
-        //    base.OnVisibleChanged(e);
-        //}
+       //Show或Hide被调用时
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            if (Visible)
+            {
+                //判断不是在设计器中
+                if (!DesignMode && shadowform == null && XTheme.ShowShadow )
+                {
+                    shadowform = new ShadowForm(this);
+                    shadowform.Show(this);
+                }
+            }
+            base.OnVisibleChanged(e);
+        }
 
 
 
@@ -962,7 +992,21 @@ namespace TX.WindowUI.Forms
      
         }
 
- 
+        private void SetFormRegion()
+        {
+            if (base.Region != null)
+                base.Region.Dispose();
+
+            Rectangle rect = new Rectangle(Point.Empty, base.Size);
+            GraphicsPath path;
+
+            if (XTheme.UseDefaultTopRoundingFormRegion)
+                path = GraphicsPathHelper.CreateTopRoundedPathForFormRegion(rect);
+            else
+                path = GraphicsPathHelper.CreateRoundedRect(rect, Radius, Round, false);
+
+            this.Region = new Region(path);
+        }
 
         /// <summary>
         /// 判断所接收到的 wm_nc-calc-size 消息是否指示窗体即将最小化
@@ -1002,32 +1046,77 @@ namespace TX.WindowUI.Forms
 
         private void DrawFormBackground(Graphics g)
         {
+
+            //SmoothingMode oldMode = g.SmoothingMode;
+            //if (Round != RoundStyle.None)
+            //    g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            //using (SolidBrush sb = new SolidBrush(XTheme.FormBackColor))
+            //{
+            //    using (GraphicsPath path = GraphicsPathHelper.CreateRoundedRect(
+            //        ClientRectangle, Radius, Round, false))
+            //    {
+            //        g.FillPath(sb, path);
+            //    }
+            //}
+            //g.SmoothingMode = oldMode;
+
             SmoothingMode oldMode = g.SmoothingMode;
             if (Round != RoundStyle.None)
                 g.SmoothingMode = SmoothingMode.AntiAlias;
 
             using (SolidBrush sb = new SolidBrush(XTheme.FormBackColor))
             {
-                using (GraphicsPath path = GraphicsPathHelper.CreateRoundedRect(
-                    ClientRectangle, Radius, Round, false))
-                {
-                    g.FillPath(sb, path);
-                }
+                //using (GraphicsPath path = GraphicsPathHelper.CreateRoundedRect(
+                //    ClientRectToDraw, Radius, Round, false))
+                //{
+                //    g.FillPath(sb, path);
+                //}
+                g.FillRectangle(sb, ClientRectToDraw);
+               
+
             }
             g.SmoothingMode = oldMode;
+
         }
 
+     
         private void DrawCaptionBackground(Graphics g)
         {
+
+            //using (LinearGradientBrush lb = new LinearGradientBrush(
+            //     CaptionRectToDraw,
+            //     XTheme.CaptionBackColorTop,
+            //     XTheme.CaptionBackColorBottom,
+            //     LinearGradientMode.Vertical))
+            //{
+            //    g.FillRectangle(lb, CaptionRectToDraw);
+            //}
             using (LinearGradientBrush lb = new LinearGradientBrush(
-                 CaptionRectToDraw,
+                 base.ClientRectangle,
                  XTheme.CaptionBackColorTop,
                  XTheme.CaptionBackColorBottom,
                  LinearGradientMode.Vertical))
             {
-                g.FillRectangle(lb, CaptionRectToDraw);
+                g.FillRectangle(lb, base.ClientRectangle);
             }
+
+            
         }
+
+        private void DrawClientBackground(Graphics g)
+        {
+            using (LinearGradientBrush lb = new LinearGradientBrush(
+                 ClientRectToDraw,
+                 XTheme.FormBackColor,
+                 XTheme.FormBackColor,
+                 LinearGradientMode.Vertical))
+            {
+                g.FillRectangle(lb, ClientRectToDraw);
+            }
+            
+        }
+
 
         private void DrawFormIconAndText(Graphics g)
         {
@@ -1073,30 +1162,35 @@ namespace TX.WindowUI.Forms
             }
             width--;
 
-            // inner border
-            if (width > 0)
-            {
-                using (Pen p = new Pen(XTheme.FormBorderInnerColor))
-                {
-                    rect.Inflate(-1, -1);
-                    using (GraphicsPath path = GraphicsPathHelper.CreateRoundedRect(
-                        rect, Radius, Round, true))
-                    {
-                        g.DrawPath(p, path);
-                    }
-                }
-            }
-            width--;
+            //// inner border
+            //if (width > 0)
+            //{
+            //    using (Pen p = new Pen(XTheme.FormBorderInnerColor))
+            //    {
+            //        rect.Inflate(-1, -1);
+            //        using (GraphicsPath path = GraphicsPathHelper.CreateRoundedRect(
+            //            rect, Radius, Round, true))
+            //        {
+            //            g.DrawPath(p, path);
+            //        }
+            //    }
+            //}
+            //width--;
 
             g.SmoothingMode = oldMode;
 
             // other inside border
-            using (Pen p = new Pen(XTheme.FormBorderInmostColor))
+            using (Pen p = new Pen(XTheme.FormBorderInnerColor))
             {
                 while (width > 0)
                 {
                     rect.Inflate(-1, -1);
-                    g.DrawRectangle(p, rect);
+                    using (GraphicsPath path = GraphicsPathHelper.CreateRoundedRect(
+                     rect, Radius, Round, true))
+                    {
+                        g.DrawPath(p, path);
+                    }
+                   // g.DrawRectangle(p, rect);
                     width--;
                 }
             }
@@ -1119,14 +1213,24 @@ namespace TX.WindowUI.Forms
             clientRect.Inflate(1, 1);
             using (Pen p1 = new Pen(inner))
             {
-                g.DrawRectangle(p1, clientRect);
+               // g.DrawRectangle(p1, clientRect);
+                using (GraphicsPath path = GraphicsPathHelper.CreateRoundedRect(
+                clientRect, Radius, Round, true))
+                {
+                    g.DrawPath(p1, path);
+                }
             }
 
             Color outter = Color.FromArgb(80, 255, 255, 255);
             clientRect.Inflate(1, 1);
             using (Pen p2 = new Pen(outter))
             {
-                g.DrawRectangle(p2, clientRect);
+                //g.DrawRectangle(p2, clientRect);
+                using (GraphicsPath path = GraphicsPathHelper.CreateRoundedRect(
+                    clientRect, Radius, Round, true))
+                {
+                    g.DrawPath(p2, path);
+                }
             }
         }
 

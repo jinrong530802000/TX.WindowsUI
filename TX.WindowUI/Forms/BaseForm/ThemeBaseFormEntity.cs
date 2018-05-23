@@ -362,7 +362,7 @@ namespace TX.WindowUI.Forms
             // form shape
             SideResizeWidth = 6;
             BorderWidth = 5;
-            CaptionHeight = 28;
+            CaptionHeight = 36;
             IconLeftMargin = 2;
             IconSize = new Size(16, 16);
             TextLeftMargin = 2;
