@@ -54,6 +54,26 @@
     <Compile Include="AppCode\Tools\RenderHelper.cs" />
     <Compile Include="AppCode\Tools\RollingBarPainter.cs" />
     <Compile Include="AppCode\Tools\SimpleObjectPainter.cs" />
+    <Compile Include="Controls\Common\TXControlBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Common\ITXControl.cs" />
+    <Compile Include="Controls\Common\ITXControlType.cs" />
+    <Compile Include="Controls\ProgressBar\ProgessBarThemeBase.cs" />
+    <Compile Include="Controls\ProgressBar\ProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ProgressBar\ProgressBarShapeStyle.cs" />
+    <Compile Include="Controls\RollingBar\RollingBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\RollingBar\RollingBarStyle.cs" />
+    <Compile Include="Controls\RollingBar\RollingBarThemeBase.cs" />
+    <Compile Include="Controls\TrackBar\CutePointAndValuePresenter.cs" />
+    <Compile Include="Controls\TrackBar\TXTrackBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TrackBar\TrackBarThemeBase.cs" />
     <Compile Include="Controls\WLButton\WLButton.cs" />
     <Compile Include="Forms\BaseForm\ShadowForm.cs">
       <SubType>Form</SubType>
@@ -61,13 +81,13 @@
     <Compile Include="Forms\BaseForm\ShadowForm.Designer.cs">
       <DependentUpon>ShadowForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\BaseForm\ThemeBaseFormEntity.cs" />
-    <Compile Include="AppCode\Mode\ButtonColorTable.cs" />
+    <Compile Include="Forms\BaseForm\FormThemeBase.cs" />
+    <Compile Include="AppCode\Model\ButtonColorTable.cs" />
     <Compile Include="AppCode\Tools\ColorHelper.cs" />
-    <Compile Include="AppCode\Mode\Common.cs" />
+    <Compile Include="AppCode\Model\Common.cs" />
     <Compile Include="AppCode\Tools\GraphicsPathHelper.cs" />
     <Compile Include="AppCode\Tools\NewGraphics.cs" />
-    <Compile Include="AppCode\Mode\RoundStyle.cs" />
+    <Compile Include="AppCode\Model\RoundStyle.cs" />
     <Compile Include="AppCode\Win32\WinAPI.cs" />
     <Compile Include="Forms\BaseForm\ThemeBaseForm.cs">
       <SubType>Form</SubType>

@@ -5,14 +5,14 @@ F:\MyControl\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.Properties.Resources.reso
 F:\MyControl\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.csproj.GenerateResource.Cache
 F:\MyControl\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.exe
 F:\MyControl\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.pdb
-D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.exe
-D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.pdb
 D:\MyProject\TX.WindowUI\TX.UIDemo\bin\Debug\TX.UIDemo.exe
 D:\MyProject\TX.WindowUI\TX.UIDemo\bin\Debug\TX.UIDemo.pdb
 D:\MyProject\TX.WindowUI\TX.UIDemo\bin\Debug\TX.WindowUI.dll
 D:\MyProject\TX.WindowUI\TX.UIDemo\bin\Debug\TX.WindowUI.pdb
 D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.csprojResolveAssemblyReference.cache
 D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.Form1.resources
+D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.Form2.resources
 D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.Properties.Resources.resources
 D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.csproj.GenerateResource.Cache
-D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.Form2.resources
+D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.exe
+D:\MyProject\TX.WindowUI\TX.UIDemo\obj\Debug\TX.UIDemo.pdb

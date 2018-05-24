@@ -162,7 +162,7 @@ namespace TX.WindowUI.Tools
             Rectangle rectTopLeft = new Rectangle(rect.X, rect.Y, radius, radius);
             Rectangle rectTopRight = new Rectangle(rect.Right - radius, rect.Y, radius, radius);
             Rectangle rectBottomLeft = new Rectangle(rect.X, rect.Bottom - radius, radius, radius);
-            Rectangle rectBottomRight = new Rectangle(rect.Right - radius, rect.Bottom - radius, radius, radius);
+            Rectangle rectBottomRight = new Rectangle(rect.Right - radius-2, rect.Bottom - radius-2, radius+2, radius+2);
             Point p1 = new Point(rect.X, rect.Y);
             Point p2 = new Point(rect.Right, rect.Y);
             Point p3 = new Point(rect.Right, rect.Bottom);
@@ -463,5 +463,46 @@ namespace TX.WindowUI.Tools
             path.CloseFigure();
             return path;
         }
+
+        public static GraphicsPath CreateRoundedRectanglePath(Rectangle rect, int cornerRadius, RoundStyle cornerPostion)
+        {
+          GraphicsPath  roundedRect = new GraphicsPath();
+
+            if (cornerPostion == RoundStyle.Top)
+            {
+                roundedRect.AddBezier(0, 2, 1, 1, 1, 1, 2, 0);
+                roundedRect.AddLine(3, 0, rect.Width - 3, 0);
+                roundedRect.AddBezier(rect.Width - 2, 0, rect.Width - 1, 1, rect.Width - 1, 1, rect.Width, 2);
+                roundedRect.AddLine(rect.Width, 3, rect.Width, rect.Height);
+                roundedRect.AddLine(rect.Width, rect.Height, 0, rect.Height);
+                roundedRect.AddLine(0, rect.Height, 0, 3);
+            }
+            else if (cornerPostion == RoundStyle.Bottom)
+            {
+                roundedRect.AddLine(0, 0, rect.Width, 0);
+                roundedRect.AddLine(rect.Width, 0, rect.Width, rect.Height - 3);
+                roundedRect.AddBezier(rect.Width, rect.Height - 2, rect.Width - 1, rect.Height - 1, rect.Width - 1, rect.Height - 1, rect.Width - 2, rect.Height);
+                roundedRect.AddLine(rect.Width - 3, rect.Height, 3, rect.Height);
+                roundedRect.AddBezier(0, rect.Height - 2, 1, rect.Height - 1, 1, rect.Height - 1, 2, rect.Height - 1);
+                roundedRect.AddLine(0, rect.Height - 3, 0, 0);
+            }
+            else
+            {
+                roundedRect.AddBezier(0, 2, 1, 1, 1, 1, 2, 0);
+                roundedRect.AddLine(3, 0, rect.Width - 3, 0);
+                roundedRect.AddBezier(rect.Width - 2, 0, rect.Width - 1, 1, rect.Width - 1, 1, rect.Width, 2);
+                roundedRect.AddLine(rect.Width, 3, rect.Width, rect.Height - 3);
+                roundedRect.AddBezier(rect.Width, rect.Height - 2, rect.Width - 1, rect.Height - 1, rect.Width - 1, rect.Height - 1, rect.Width - 2, rect.Height);
+                roundedRect.AddLine(rect.Width - 3, rect.Height, 3, rect.Height);
+                roundedRect.AddBezier(0, rect.Height - 2, 1, rect.Height - 1, 1, rect.Height - 1, 2, rect.Height - 1);
+                roundedRect.AddLine(0, rect.Height - 3, 0, 3);
+            }
+            roundedRect.CloseFigure();
+            return roundedRect;
+        }
     }
+
+   
+
+
 }

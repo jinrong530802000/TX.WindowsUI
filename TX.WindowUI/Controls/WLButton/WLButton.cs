@@ -18,7 +18,7 @@ namespace TX.WindowUI.Controls
         #region private var
 
         private Control _owner;
-        private GMButtonState _state;        
+        private TX.WindowUI.Mode.TXButtonState _state;        
         private EventHandler _click;
         private PaintEventHandler _paint;
         private bool _capture;
@@ -58,7 +58,7 @@ namespace TX.WindowUI.Controls
             remove { _paint = null; }
         }
 
-        public GMButtonState State
+        public TXButtonState State
         {
             get { return _state; }
             set
@@ -333,7 +333,7 @@ namespace TX.WindowUI.Controls
         {
             if (Bounds.Contains(location))
             {
-                State = GMButtonState.Pressed;
+                State = TXButtonState.Pressed;
                 _capture = true;
             }
             else
@@ -346,17 +346,17 @@ namespace TX.WindowUI.Controls
         {
             if (Bounds.Contains(location))
             {                
-                if (State == GMButtonState.Normal)
+                if (State == TXButtonState.Normal)
                 {
                     // 没有在窗体其他地方按下按钮
                     if (!_owner.Capture) 
                     {
-                        State = GMButtonState.Hover;
+                        State = TXButtonState.Hover;
                     }
                 }
-                else if (State == GMButtonState.PressLeave)
+                else if (State == TXButtonState.PressLeave)
                 {
-                    State = GMButtonState.Pressed;
+                    State = TXButtonState.Pressed;
                 }
                 
             }
@@ -364,18 +364,18 @@ namespace TX.WindowUI.Controls
             {
                 if (_capture)
                 {
-                    State = GMButtonState.PressLeave;
+                    State = TXButtonState.PressLeave;
                 }
                 else
                 {
-                    State = GMButtonState.Normal;
+                    State = TXButtonState.Normal;
                 }
             }
         }
 
         private void MouseLeave(Point location)
         {
-            State = GMButtonState.Normal;
+            State = TXButtonState.Normal;
             _capture = false;
         }
 
@@ -384,13 +384,13 @@ namespace TX.WindowUI.Controls
             
             if (Bounds.Contains(location))
             {
-                State = GMButtonState.Hover;
+                State = TXButtonState.Hover;
                 if (_capture)
                     OnClick(EventArgs.Empty);                
             }
             else
             {
-                State = GMButtonState.Normal;
+                State = TXButtonState.Normal;
             }
             _capture = false;
         }
@@ -425,7 +425,7 @@ namespace TX.WindowUI.Controls
         public WLButton(Control owner)
         {
             _owner = owner;
-            _state = GMButtonState.Normal;
+            _state = TXButtonState.Normal;
             Visible = true;
             Enabled = true;
             BorderType = ButtonBorderType.Rectangle;
@@ -446,10 +446,10 @@ namespace TX.WindowUI.Controls
             {
                 switch (State)
                 {
-                    case GMButtonState.Hover:
+                    case TXButtonState.Hover:
                         RenderHover(g);
                         break;
-                    case GMButtonState.Pressed:
+                    case TXButtonState.Pressed:
                         RenderPressed(g);
                         break;
                     default:

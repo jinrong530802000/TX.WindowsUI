@@ -9,7 +9,7 @@ namespace TX.WindowUI.Forms
     /// <summary>
     /// 该类封装设置一个主题所需的信息，可以继承该类实现不同的主题
     /// </summary>
-    public class ThemeBaseFormEntity
+    public class FormThemeBase
     {
         #region about theme
         
@@ -354,7 +354,7 @@ namespace TX.WindowUI.Forms
 
         #endregion
 
-        public ThemeBaseFormEntity()
+        public FormThemeBase()
         {
             // about theme
             ThemeName = "Base Default Theme";
@@ -455,4 +455,5 @@ namespace TX.WindowUI.Forms
 
         }
     }    
+
 }

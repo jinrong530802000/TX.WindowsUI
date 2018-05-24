@@ -6,7 +6,7 @@ namespace TX.WindowUI.Mode
 {
     public delegate GraphicsPath ButtonForePathGetter(Rectangle rect);
 
-    public enum GMButtonState
+    public enum TXButtonState
     {
         Normal,
         Hover,

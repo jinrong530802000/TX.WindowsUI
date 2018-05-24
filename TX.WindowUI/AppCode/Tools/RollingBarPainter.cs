@@ -22,13 +22,13 @@ namespace TX.WindowUI.Tools
                 throw new ArgumentException("spokeNum must bigger than 0", "spokeNum");
             if (spokeNum > colorArray.Length)
                 throw new ArgumentException("spokeNum must NOT bigger than the length of colorArray. ", "spokeNum");
-            using (SolidBrush sb = new SolidBrush(backColor))
-            {
-                using (NewSmoothModeGraphics ng = new NewSmoothModeGraphics(g, SmoothingMode.HighSpeed))
-                {
-                    g.FillRectangle(sb, rect);
-                }
-            }
+            //using (SolidBrush sb = new SolidBrush(backColor))
+            //{
+            //    using (NewSmoothModeGraphics ng = new NewSmoothModeGraphics(g, SmoothingMode.HighSpeed))
+            //    {
+            //        g.FillRectangle(sb, rect);
+            //    }
+            //}
             Point NYPD = new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
             PointF p1, p2;
             p1 = new PointF(0f, 0f);
@@ -58,13 +58,13 @@ namespace TX.WindowUI.Tools
         public static void RenderChromeOneQuarter(Graphics g, Rectangle rect, Color backColor,
             float startAngle, int radius, Color baseColor)
         {
-            using (SolidBrush sb = new SolidBrush(backColor))
-            {
-                using (NewSmoothModeGraphics ng = new NewSmoothModeGraphics(g, SmoothingMode.HighSpeed))
-                {
-                    g.FillRectangle(sb, rect);
-                }
-            }
+            //using (SolidBrush sb = new SolidBrush(backColor))
+            //{
+            //    using (NewSmoothModeGraphics ng = new NewSmoothModeGraphics(g, SmoothingMode.HighSpeed))
+            //    {
+            //        g.FillRectangle(sb, rect);
+            //    }
+            //}
             Rectangle rectgc = new Rectangle(
                 rect.X + (rect.Width - radius) / 2, rect.Y + (rect.Height - radius) / 2, radius, radius);
             using (Pen p = new Pen(baseColor, 3))
@@ -81,13 +81,15 @@ namespace TX.WindowUI.Tools
         public static void RenderDiamondRing(Graphics g, Rectangle rect, Color backColor, float startAngle,
             int radius, Color baseColor, Color diamondColor)
         {
-            using (SolidBrush sb = new SolidBrush(backColor))
-            {
-                using (NewSmoothModeGraphics ng = new NewSmoothModeGraphics(g, SmoothingMode.HighSpeed))
-                {
-                    g.FillRectangle(sb, rect);
-                }
-            }
+            //不要画背景，loading就行
+            //using (SolidBrush sb = new SolidBrush(backColor))
+            //{
+            //    using (NewSmoothModeGraphics ng = new NewSmoothModeGraphics(g, SmoothingMode.HighSpeed))
+            //    {
+            //        g.FillRectangle(sb, rect);
+            //    }
+            //}
+
             Point NYPD = new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
             startAngle = (float)(startAngle * 2 * Math.PI / 360f);
             PointF pslute = PointF.Empty;
@@ -114,13 +116,14 @@ namespace TX.WindowUI.Tools
         public static void RenderTheseGuys(Graphics g, Rectangle rect, Color backColor, float startAngle,
             int radius, Color baseColor)
         {
-            using (SolidBrush sb = new SolidBrush(backColor))
-            {
-                using (NewSmoothModeGraphics ng = new NewSmoothModeGraphics(g, SmoothingMode.HighSpeed))
-                {
-                    g.FillRectangle(sb, rect);
-                }
-            }
+            //using (SolidBrush sb = new SolidBrush(backColor))
+            //{
+            //    using (NewSmoothModeGraphics ng = new NewSmoothModeGraphics(g, SmoothingMode.HighSpeed))
+            //    {
+            //        g.FillRectangle(sb, rect);
+            //    }
+            //}
+
             Point NYPD = new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
             startAngle = (float)(startAngle * 2 * Math.PI / 360f);
             PointF CIA = PointF.Empty;            

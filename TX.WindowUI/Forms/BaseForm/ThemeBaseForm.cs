@@ -20,7 +20,7 @@ namespace TX.WindowUI.Forms
     {
         bool _resizable = true;             // not with theme
         Padding _padding = new Padding(0);  // not with theme
-        ThemeBaseFormEntity _myTheme;
+        FormThemeBase _myTheme;
         private ShadowForm shadowform;
         private WLButton closeBtn;
         private WLButton maxBtn;
@@ -41,13 +41,21 @@ namespace TX.WindowUI.Forms
 
         private void FormIni()
         {
-            this.SetStyle(
-                ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.UserPaint |
-                ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.ResizeRedraw, true);
-            this.DoubleBuffered = true;
-            this.UpdateStyles();
+            //this.SetStyle(
+            //    ControlStyles.AllPaintingInWmPaint |
+            //    ControlStyles.UserPaint |
+            //    ControlStyles.OptimizedDoubleBuffer |
+            //    ControlStyles.DoubleBuffer |
+            //    ControlStyles.ResizeRedraw, true);
+            base.SetStyle(
+              ControlStyles.UserPaint |
+              ControlStyles.AllPaintingInWmPaint |
+              ControlStyles.OptimizedDoubleBuffer |
+              ControlStyles.ResizeRedraw |
+              ControlStyles.DoubleBuffer, true);
+            base.UpdateStyles();
+            base.DoubleBuffered = true;
+            base.AutoScaleMode = AutoScaleMode.None; 
             base.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             base.Padding = DefaultPadding;
             base.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
@@ -213,12 +221,12 @@ namespace TX.WindowUI.Forms
         }
 
         [Browsable(false)]
-        public ThemeBaseFormEntity XTheme
+        public FormThemeBase XTheme
         {
             get
             {
                 if (_myTheme == null)
-                    _myTheme = new ThemeBaseFormEntity();
+                    _myTheme = new FormThemeBase();
                 return _myTheme;
             }
             set
@@ -626,7 +634,7 @@ namespace TX.WindowUI.Forms
                 if (ControlBox && ShowIcon)
                 {
                     int x = BorderWidth + IconLeftMargin;
-                    int y = BorderWidth + (CaptionHeight - IconSize.Height) / 2;
+                    int y = BorderWidth + (CaptionHeight - IconSize.Height) / 2; //
                     return new Rectangle(new Point(x, y), IconSize);
                 }
                 else
@@ -1003,7 +1011,8 @@ namespace TX.WindowUI.Forms
             if (XTheme.UseDefaultTopRoundingFormRegion)
                 path = GraphicsPathHelper.CreateTopRoundedPathForFormRegion(rect);
             else
-                path = GraphicsPathHelper.CreateRoundedRect(rect, Radius, Round, false);
+                // path = GraphicsPathHelper.CreateRoundedRect(rect, Radius, Round, false);
+               path= GraphicsPathHelper.CreateRoundedRectanglePath(rect, Radius, Round);
 
             this.Region = new Region(path);
         }

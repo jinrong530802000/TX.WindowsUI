@@ -22,6 +22,7 @@ namespace TX.UIDemo
         {
             Form2 f = new Form2();
             f.Show();
+
           
         }
 
@@ -30,8 +31,30 @@ namespace TX.UIDemo
             this.XTheme.ShowShadow = false;
             this.XTheme.ShadowWidth = 10;
             this.XTheme.FormBackColor = this.BackColor;
+
+            //this.comboBox1.Items. = TX.WindowUI.RollingBarStyle;
             //this.XTheme.FormBorderInnerColor = System.Drawing.SystemColors.Control;
             //this.XTheme.FormBorderInmostColor = System.Drawing.SystemColors.Control;
+        }
+        bool f = false;
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //this.rollingBar1.XTheme.ChangeBarThemeBase(this.rollingBar1.Style);
+            f = !f;
+            if (f)
+            {
+                rollingBar1.StartRolling();
+            }
+            else
+            {
+                rollingBar1.StopRolling();
+            }
+           
+        }
+
+        private void rollingBar1_StypeChange(object sender, EventArgs e)
+        {
+         
         }
     }
 }
